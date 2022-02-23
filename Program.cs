@@ -41,11 +41,7 @@ namespace ListaAgenda
         public static Contact InsertContact()
         {
             TelephoneList MyTelephoneList = new TelephoneList();
-            ContactList tempContactList = new ContactList();
-            Contact tempContact;
-
-            string stop, choice;
-            int st = 0;
+            string choice;
 
             Console.WriteLine("\n ...: Novo Contato\n");
             Console.Write(" Nome: ");
@@ -56,41 +52,44 @@ namespace ListaAgenda
 
             Console.WriteLine("\n xxxx Caso nao queira atribuir um telefone nesse contato, basta deixar todos os campos vazios.\n");
 
+            Console.Write("\n Tipo :");
+            string typeTel = Console.ReadLine();
+            Console.Write(" DDD: ");
+            string dddTel = Console.ReadLine();
+            Console.Write(" Num.: ");
+            string phoneTel = Console.ReadLine();
+            MyTelephoneList.Push(new Telephone(typeTel, dddTel, phoneTel));
+
+            Console.Clear();
             do
             {
-                Console.Write("\n Tipo (Celular, Fixo, Comercial, Recado...): ");
-                string typeTel = Console.ReadLine();
-                Console.Write(" DDD: ");
-                string dddTel = Console.ReadLine();
-                Console.Write(" Num.: ");
-                string phoneTel = Console.ReadLine();
-
                 Console.WriteLine("\n Deseja incluir mais um telefone?");
                 Console.WriteLine(" 1 - Sim");
                 Console.WriteLine(" 2 - Nao");
                 Console.Write("\n Escolha: ");
                 choice = Console.ReadLine();
-                int.TryParse(choice, out st);
-
-                if ((st < 1) || (st > 2))
+                Console.Clear();
+                switch (choice)
                 {
-                    Console.WriteLine("\n xxxxx Opcao invalida.");
-                    Console.WriteLine("\n xxxxx Digite novamente os dados do telefone.");
-                }
-                else if (st >= 1)
-                {
-                    if ((typeTel == "") && (dddTel == "") && (phoneTel == ""))
-                    {
-                        st = 2;
-                    }
-                    else
-                    {
+                    case "1":
+                        Console.Write("\n Tipo: ");
+                        typeTel = Console.ReadLine();
+                        Console.Write(" DDD: ");
+                        dddTel = Console.ReadLine();
+                        Console.Write(" Num.: ");
+                        phoneTel = Console.ReadLine();
                         MyTelephoneList.Push(new Telephone(typeTel, dddTel, phoneTel));
-                    }
+                        Console.Clear();
+                        break;
+
+                    case "2":
+                        break;
+
+                    default:
+                        Console.WriteLine("\n xxxxx Opcao invalida. Tente novamente.");
+                        break;
                 }
-
-            } while (st != 2);
-
+            } while (choice != "2");
             return new Contact(name, email, MyTelephoneList);
         }
 
@@ -99,7 +98,7 @@ namespace ListaAgenda
             ContactList MyContactList = new ContactList();
 
             bool flag = true;
-            int option = 0;
+            int option;
 
             option = Menu();
 
@@ -138,10 +137,13 @@ namespace ListaAgenda
                         Console.Clear();
                         option = Menu();
                         break;
-                    default:
+                    case 6:
                         Console.Clear();
                         Console.WriteLine("\n xxxxxxxxx OBRIGADO POR USAR NOSSO SISTEMA xxxxxxxx \n");
                         flag = false;
+                        break;
+                    default:
+                        Console.WriteLine("Opção invalida. Tente novamente.");
                         break;
                 }
             }
